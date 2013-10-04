@@ -14,11 +14,21 @@ Robinhood.setup do
     UserAssigner.process!
   end
 
-  process :sweeper do
+  process :sweeper, throttle: 1.minute do
     Sweeper.sweep!
   end
 end
 ```
+
+## How does it work?
+
+Each time a process finishes its execution, the lock is released so any other
+server (or system process) can execute it again. This ensures it will be
+executed in a synchronous manner (one after the other).
+
+You can also set a timeout (in case a process hangs for some reason) and a
+throttling mechanism (so a process can't be re-scheduled before this time has
+passed).
 
 ## Contributing
 
