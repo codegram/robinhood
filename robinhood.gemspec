@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = Robinhood::VERSION
   spec.authors       = ["Josep Jaume"]
   spec.email         = ["josepjaume@gmail.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
-  spec.homepage      = ""
+  spec.description   = %q{Robin hood leverages celluloid actors and redis-mutex to distribute long-lived, single-instance processes across multiple servers.}
+  spec.summary       = spec.description
+  spec.homepage      = "http://www.codegram.com"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)

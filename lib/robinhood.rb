@@ -10,6 +10,11 @@ module Robinhood
   end
 
   def self.stop
-    @setup.stop
+    @setup.stop if @setup
+  end
+
+  def self.reset!
+    stop
+    @setup = nil
   end
 end
