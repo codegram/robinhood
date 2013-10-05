@@ -1,4 +1,4 @@
-# Robinhood
+# Robinhood [![Build Status](https://www.travis-ci.org/codegram/robinhood.png?branch=master)](https://www.travis-ci.org/codegram/robinhood)
 
 Robinhood is a DSL for constructing iteration-based synchronous processes
 (aka can't be run as jobs) in a distributed manner.
