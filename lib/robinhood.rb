@@ -1,10 +1,10 @@
 require "robinhood/version"
-require "robinhood/setup"
+require "robinhood/dsl"
 require "celluloid/autostart"
 
 module Robinhood
   def self.setup(options = {}, &block)
-    @setup ||= Setup.new(options)
+    @setup ||= DSL.new(options)
     @setup.instance_eval(&block)
     @setup.start
   end

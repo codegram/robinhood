@@ -2,7 +2,7 @@ require "robinhood/process"
 require "celluloid"
 
 module Robinhood
-  class Setup
+  class DSL
     attr_reader :options
 
     def initialize(options = {})
