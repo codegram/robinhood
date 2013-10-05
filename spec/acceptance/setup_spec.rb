@@ -9,8 +9,6 @@ module Robinhood
         process(:balls){}
       end
 
-      sleep(1)
-
       expect(Celluloid::Actor[:robinhood_ed]).to_not be_nil
       expect(Celluloid::Actor[:robinhood_balls]).to_not be_nil
     end

@@ -21,7 +21,9 @@ module Robinhood
 
       time = Benchmark.realtime{ @block.call }
 
-      sleep(difference) if difference = throttle - time
+      if difference = throttle - time
+        sleep(difference)
+      end
     ensure
       mutex.unlock
       async.run
