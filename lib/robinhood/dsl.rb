@@ -15,7 +15,11 @@ module Robinhood
     end
 
     def redis
-      @redis = yield
+      if block_given?
+        @redis = yield
+      else
+        @redis ||= Redis.new(redis_options)
+      end
     end
 
     def supervision_group
@@ -24,7 +28,7 @@ module Robinhood
 
     def start
       setup_supervision_group
-      Redis::Classy.db = @redis || Redis.new
+      Redis::Classy.db = redis
 
       @supervision_group_actor = if options[:background]
                                    supervision_group.run!

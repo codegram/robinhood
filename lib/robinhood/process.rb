@@ -9,6 +9,8 @@ module Robinhood
     include Celluloid
     include Celluloid::Logger
 
+    finalizer :unlock
+
     def initialize(name, options, block)
       @name = name
       @options = options
@@ -17,16 +19,25 @@ module Robinhood
     end
 
     def run
-      mutex.lock
-
-      time = Benchmark.realtime{ @block.call }
-
-      if difference = throttle - time
-        sleep(difference)
+      if lock
+        begin
+          time = Benchmark.realtime{ @block.call }
+          if difference = throttle - time
+            sleep(difference)
+          end
+        ensure
+          unlock
+        end
       end
-    ensure
-      mutex.unlock
       async.run
+    end
+
+    def lock
+      mutex.lock
+    end
+
+    def unlock
+      mutex.unlock
     end
 
     def lock_name
@@ -37,7 +48,7 @@ module Robinhood
       if (throttle = options[:throttle]) != nil
         throttle
       else
-        0.1
+        0.05
       end
     end
 

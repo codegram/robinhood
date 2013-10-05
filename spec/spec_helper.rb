@@ -8,13 +8,12 @@ RSpec.configure do |config|
     config.formatter = :documentation
   end
 
-  config.before(:each) do
+  config.before(:all) do
     Celluloid.logger = nil
-    redis = Redis.new
-    redis.flushdb
   end
 
-  config.after(:each) do
+  config.before(:each) do
     Robinhood.reset!
+    Redis.new.flushdb
   end
 end

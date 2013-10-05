@@ -5,7 +5,7 @@ require "celluloid/autostart"
 module Robinhood
   def self.setup(options = {}, &block)
     @setup ||= DSL.new(options)
-    @setup.instance_eval(&block)
+    @setup.instance_eval(&block) if block
     @setup.start
   end
 
