@@ -24,7 +24,7 @@ Robinhood.define do
   end
 end
 
-Robinhood.start
+Robinhood.run
 ```
 
 ## How does it work?
