@@ -44,7 +44,7 @@ module Robinhood
       return unless lock
 
       begin
-        time = Benchmark.realtime{ @block.call }
+        time = Benchmark.realtime{ instance_eval(&@block) }
         if difference = throttle - time
           sleep(difference)
         end
