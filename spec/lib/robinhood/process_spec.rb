@@ -6,38 +6,29 @@ require 'thread'
 module Robinhood
   describe Process do
     before do
-      Robinhood.start(background: true)
+      Robinhood::Runtime.new.run(background: true)
     end
 
     describe "mutual exclusion" do
       it "doesn't allow two of the same processes to run at once" do
-        mutex = Mutex.new
         output = []
-        append = Proc.new do |elem|
-          mutex.synchronize do
-            output << elem
-          end
-        end
 
         Process.new(:test, {throttle: 0.01}, Proc.new{
-          append.call(:ed)
+          output << :ed
           sleep(0.05)
-          append.call(:ed)
+          output << :ed
         })
 
         Process.new(:test, {throttle: 0.01}, Proc.new{
-          append.call(:balls)
+          output << :balls
           sleep(0.05)
-          append.call(:balls)
+          output << :balls
         })
 
         sleep(2)
 
-        (output.length / 2).floor.times do |index|
-          step = index * 2
-          current_elem = output[step]
-          next_elem    = output[step + 1]
-          expect(next_elem).to eq(current_elem)
+        (output.length / 2).times.map{|i| i * 2}.each do |index|
+          expect(output[index]).to eq(output[index + 1])
         end
       end
     end
