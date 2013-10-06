@@ -11,7 +11,18 @@ mechanism to ensure the process is run in a single server.
 
 ## Usage
 
+Install the gem:
+
+```
+$ gem install robinhood
+```
+
+Define Robinhood in a file:
+
 ```ruby
+require 'robinhood'
+require 'your-app'
+
 Robinhood.define do
   redis{ Redis.new(:host => "10.0.1.1", :port => 6380) }
 
