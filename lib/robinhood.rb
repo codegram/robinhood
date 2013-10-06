@@ -4,13 +4,11 @@ require "celluloid/autostart"
 
 module Robinhood
   def self.define(&block)
-    @setup ||= DSL.new
-    @setup.instance_eval(&block) if block
+    dsl.instance_eval(&block) if block
   end
 
   def self.start(options = {})
-    @setup ||= DSL.new
-    @setup.start(options)
+    dsl.start(options)
   end
 
   def self.stop
@@ -34,4 +32,9 @@ module Robinhood
   def self.logger=(logger)
     @logger = logger
   end
+
+  def self.dsl
+    @dsl ||= DSL.new
+  end
+  private_class_method :dsl
 end

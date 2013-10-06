@@ -19,16 +19,17 @@ module Robinhood
     end
 
     def run
-      if lock
-        begin
-          time = Benchmark.realtime{ @block.call }
-          if difference = throttle - time
-            sleep(difference)
-          end
-        ensure
-          unlock
+      return unless lock
+
+      begin
+        time = Benchmark.realtime{ @block.call }
+        if difference = throttle - time
+          sleep(difference)
         end
+      ensure
+        unlock
       end
+    ensure
       async.run
     end
 
