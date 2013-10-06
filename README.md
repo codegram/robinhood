@@ -3,6 +3,9 @@
 Robinhood is a DSL for constructing iteration-based synchronous processes
 (aka can't be run as jobs) in a distributed manner.
 
+In other words: Robs responsibilities from richer processes and gives them to
+the poor.
+
 It leverages celluloid actors for each process and uses Redis as a locking
 mechanism to ensure the process is run in a single server.
 
