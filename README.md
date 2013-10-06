@@ -16,7 +16,7 @@ Robinhood.define do
     UserAssigner.process!
   end
 
-  process :sweeper, throttle: false do
+  process :sweeper, throttle: false, timeout: 20 do
     Sweeper.sweep!
   end
 end
@@ -28,7 +28,9 @@ Robinhood.start
 
 Each time a process finishes its execution, the lock is released so any other
 server (or system process) can execute it again. This ensures it will be
-executed in a synchronous manner (one after the other).
+executed in a synchronous manner (one after the other). It also garantees the
+executions will be distributed across the processes (or servers) so if a server
+goes down, the load will be distributed evenly across the rest of them.
 
 You can also set a timeout (in case a process hangs for some reason) and a
 throttling mechanism (so a process can't be re-scheduled before this time has

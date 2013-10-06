@@ -52,8 +52,12 @@ module Robinhood
       end
     end
 
+    def timeout
+      options[:timeout] || 300
+    end
+
     def mutex
-      @mutex ||= Redis::Mutex.new(lock_name, block: 1, sleep: 0.1, expire: 300)
+      @mutex ||= Redis::Mutex.new(lock_name, block: 1, sleep: 0.1, expire: timeout)
     end
   end
 end
