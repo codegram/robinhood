@@ -3,10 +3,14 @@ require "robinhood/dsl"
 require "celluloid/autostart"
 
 module Robinhood
-  def self.setup(options = {}, &block)
-    @setup ||= DSL.new(options)
+  def self.define(&block)
+    @setup ||= DSL.new
     @setup.instance_eval(&block) if block
-    @setup.start
+  end
+
+  def self.start(options = {})
+    @setup ||= DSL.new
+    @setup.start(options)
   end
 
   def self.stop
@@ -16,5 +20,18 @@ module Robinhood
   def self.reset!
     stop
     @setup = nil
+  end
+
+  def self.log(loglevel, message)
+    logger.send loglevel, message if logger
+  end
+
+  def self.logger
+    return @logger if defined?(@logger)
+    @logger = Logger.new(STDOUT)
+  end
+
+  def self.logger=(logger)
+    @logger = logger
   end
 end

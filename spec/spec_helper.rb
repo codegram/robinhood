@@ -10,6 +10,7 @@ RSpec.configure do |config|
 
   config.before(:all) do
     Celluloid.logger = nil
+    Robinhood.logger = nil
   end
 
   config.before(:each) do

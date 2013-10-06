@@ -9,15 +9,19 @@ mechanism to ensure the process is run in a single server.
 ## Usage
 
 ```ruby
-Robinhood.setup do
-  process :assigner, timeout: 10.minutes do
+Robinhood.define do
+  redis{ Redis.new(:host => "10.0.1.1", :port => 6380) }
+
+  process :assigner, throttle: 10 do
     UserAssigner.process!
   end
 
-  process :sweeper, throttle: 1.minute do
+  process :sweeper, throttle: false do
     Sweeper.sweep!
   end
 end
+
+Robinhood.start
 ```
 
 ## How does it work?

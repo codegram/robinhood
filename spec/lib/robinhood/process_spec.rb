@@ -6,7 +6,7 @@ require 'thread'
 module Robinhood
   describe Process do
     before do
-      Robinhood.setup(background: true)
+      Robinhood.start(background: true)
     end
 
     describe "mutual exclusion" do

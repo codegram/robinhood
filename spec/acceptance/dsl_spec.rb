@@ -1,12 +1,14 @@
 require "spec_helper"
 require "robinhood"
 
-describe "Robinhood.setup" do
+describe "Robinhood.define" do
   it "creates actors for each process" do
-    Robinhood.setup(background: true) do
+    Robinhood.define do
       process(:ed){}
       process(:balls){}
     end
+
+    Robinhood.start(background: true)
 
     expect(Celluloid::Actor[:robinhood_ed]).to_not be_nil
     expect(Celluloid::Actor[:robinhood_balls]).to_not be_nil
@@ -15,11 +17,13 @@ describe "Robinhood.setup" do
   it "executes a process iteratively until it ends" do
     queue = [1, 2]
 
-    Robinhood.setup(background: true) do
+    Robinhood.define do
       process :test do
         queue.pop
       end
     end
+
+    Robinhood.start(background: true)
 
     sleep(0.2)
     expect(queue).to be_empty
@@ -34,11 +38,13 @@ describe "Robinhood.setup" do
       calls << Time.now
     end
 
-    Robinhood.setup(background: true) do
+    Robinhood.define do
       process :test, throttle: throttle do
         method_call.call
       end
     end
+
+    Robinhood.start(background: true)
 
     sleep(throttle * 5)
 

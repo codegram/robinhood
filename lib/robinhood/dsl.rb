@@ -1,12 +1,10 @@
 require "robinhood/process"
 require "celluloid"
+require 'logger'
 
 module Robinhood
   class DSL
-    attr_reader :options
-
-    def initialize(options = {})
-      @options = options
+    def initialize
       @processes = []
     end
 
@@ -18,7 +16,7 @@ module Robinhood
       if block_given?
         @redis = yield
       else
-        @redis ||= Redis.new(redis_options)
+        @redis ||= Redis.new
       end
     end
 
@@ -26,9 +24,11 @@ module Robinhood
       @supervision_group ||= Class.new(Celluloid::SupervisionGroup)
     end
 
-    def start
+    def start(options = {})
       setup_supervision_group
       Redis::Classy.db = redis
+
+      Robinhood.log :info, "Starting Robin Hood: Robbing from the rich and giving to the poor.."
 
       @supervision_group_actor = if options[:background]
                                    supervision_group.run!
@@ -39,10 +39,6 @@ module Robinhood
 
     def stop
       @supervision_group_actor.finalize if @supervision_group_actor
-    end
-
-    def redis_options
-      options[:redis] || {}
     end
 
     def setup_supervision_group
