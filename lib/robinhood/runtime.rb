@@ -35,6 +35,8 @@ module Robinhood
     #
     # Returns the Runtime.
     def run(options = {})
+      Celluloid.start
+
       setup_supervision_group
       Mutex.db = redis
 

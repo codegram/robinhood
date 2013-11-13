@@ -1,7 +1,6 @@
 require "robinhood/version"
 require "robinhood/dsl"
 require "robinhood/runtime"
-require "celluloid/autostart"
 
 module Robinhood
   # Public: The starting point for Robinhood's DSL.
