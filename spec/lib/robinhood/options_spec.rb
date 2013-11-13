@@ -23,7 +23,7 @@ describe Robinhood::Options do
     context 'when log dir is present' do
       it 'extract log dir' do
         options = parser.parse(['LOGFILE=log/robinhood.log'])
-        expect(options[:logfile]).to eq('log/robinhood.log')
+        expect(options[:log_dir]).to eq('log/robinhood.log')
       end
     end
 
@@ -31,6 +31,13 @@ describe Robinhood::Options do
       it 'extract pids dir' do
         options = parser.parse(['PIDS_DIR=tmp/pids/robinhood'])
         expect(options[:pids_dir]).to eq('tmp/pids/robinhood')
+      end
+    end
+
+    context 'when robinhood file path is present' do
+      it 'extract robinhood file path' do
+        options = parser.parse(['ROBINHOOD_FILE_PATH=robinhood_file.rb'])
+        expect(options[:robinhood_file_path]).to eq('robinhood_file.rb')
       end
     end
 
