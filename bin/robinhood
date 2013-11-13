@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+require 'robinhood'
+require 'robinhood/options'
+
+options = Robinhood::Options.parse(ARGV)
