@@ -20,6 +20,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'celluloid'
   spec.add_dependency 'redis-mutex'
+  spec.add_dependency 'daemons'
 
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"

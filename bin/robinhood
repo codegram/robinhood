@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+require 'robinhood'
+require 'robinhood/options'
+require 'robinhood/daemonize'
+
+options = Robinhood::Options.parse(ARGV)
+
+robinhood_daemonize = Robinhood::Daemonize.new(
+  robinhood_file_path: options[:robinhood_file_path],
+  pids_dir_path: options[:pids_dir],
+  log_dir_path: options[:log_dir]
+)
+
+if options[:start]
+  robinhood_daemonize.start
+end
+
+if options[:stop]
+  robinhood_daemonize.stop
+end
