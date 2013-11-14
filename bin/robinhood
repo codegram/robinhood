@@ -3,18 +3,39 @@ require 'robinhood'
 require 'robinhood/options'
 require 'robinhood/daemonize'
 
+# This executable is responsible of start robinhood as a daemon, its basic usage is:
+#
+#   robinhood start
+#
+# This order will start a daemon with a file called robinhood.rb as the Robinhood instance
+#
+# Some options can be provided in order to modify the default behaviour, those are:
+#
+#  - ROBINHOOD_FILE_PATH=... # file that contains the Robinhood instance
+#  - PIDS_DIR=... # Dir to store de Pidfile for the Daemon
+#  - LOGFILE=... # Dir to store the logs for the Daemon
+#
+# To stop the daemon we will execute:
+#
+#   robinhood stop
+#
+
+# Extract the arguments
 options = Robinhood::Options.parse(ARGV)
 
+# Create the Daemonize object with the extracted arguments
 robinhood_daemonize = Robinhood::Daemonize.new(
   robinhood_file_path: options[:robinhood_file_path],
   pids_dir_path: options[:pids_dir],
   log_dir_path: options[:log_dir]
 )
 
+# Start the daemon if start option has been specified
 if options[:start]
   robinhood_daemonize.start
 end
 
+# Stop the daemon if stop option has been specified
 if options[:stop]
   robinhood_daemonize.stop
 end
