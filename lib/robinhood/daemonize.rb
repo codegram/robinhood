@@ -25,14 +25,17 @@ module Robinhood
     #
     # Returns nothing
     def start
-      Daemons.run(file_path, options.merge(ARGV: ['start']))
+      load_definition(file_path)
+      Daemons.run_proc(file_path, options.merge(ARGV: ['start'])) do
+        Robinhood.start
+      end
     end
 
     # Public: Stop the daemon
     #
     # Returns nothing
     def stop
-      Daemons.run(file_path, options.merge(ARGV: ['stop']))
+      Daemons.run_proc(file_path, options.merge(ARGV: ['stop']))
     end
 
     private
@@ -50,7 +53,7 @@ module Robinhood
     end
 
     def file_path
-      @file_path ||= robinhood_file_path || File.expand_path('robinhood.rb')
+      @file_path ||= robinhood_file_path || File.expand_path('Robinhood')
     end
 
     def log_path
@@ -59,6 +62,10 @@ module Robinhood
 
     def pids_path
       @pids_path ||= pids_dir_path || File.expand_path(File.join('tmp', 'pids'))
+    end
+
+    def load_definition(file)
+      require file
     end
   end
 end
