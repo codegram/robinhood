@@ -24,6 +24,10 @@ module Robinhood
     # Returns nothing
     def run
       definition = File.read(file)
+
+      FileUtils.mkdir_p log_path
+      FileUtils.mkdir_p pids_path
+
       Daemons.run_proc(filename, options.merge(ARGV: [@options[:command]])) do
         eval definition
         Robinhood.run
@@ -37,6 +41,7 @@ module Robinhood
         dir_mode: :normal,
         dir: pids_path,
         monitor: true,
+        multiple: true,
         app_name: 'robinhood',
         log_dir: log_path,
         log_output: true
