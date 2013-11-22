@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 require 'robinhood'
-require 'robinhood/options'
-require 'robinhood/daemonize'
+require 'robinhood/daemon'
+require 'robinhood/daemon/options'
 
 # This executable is responsible of start robinhood as a daemon, its basic usage is:
 #
@@ -21,21 +21,9 @@ require 'robinhood/daemonize'
 #
 
 # Extract the arguments
-options = Robinhood::Options.parse(ARGV)
+options = Robinhood::Daemon::Options.new(ARGV).parse
 
 # Create the Daemonize object with the extracted arguments
-robinhood_daemonize = Robinhood::Daemonize.new(
-  robinhood_file_path: options[:robinhood_file_path],
-  pids_dir_path: options[:pids_dir],
-  log_dir_path: options[:log_dir]
-)
+daemon = Robinhood::Daemon.new(options)
 
-# Start the daemon if start option has been specified
-if options[:start]
-  robinhood_daemonize.start
-end
-
-# Stop the daemon if stop option has been specified
-if options[:stop]
-  robinhood_daemonize.stop
-end
+daemon.run
