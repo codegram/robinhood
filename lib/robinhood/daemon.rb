@@ -17,6 +17,9 @@ module Robinhood
     # Returns a new Robinhood::Daemonize
     def initialize(options={})
       @options = options
+      @file = File.expand_path(@options[:file] || "robinhood")
+      @pids_path = File.expand_path(@options[:pids_path] || File.join("tmp", "pids"))
+      @log_path = File.expand_path(@options[:log_path] || "log")
     end
 
     # Public: Start the daemon
@@ -48,20 +51,8 @@ module Robinhood
       }
     end
 
-    def file
-      @file ||= File.expand_path(@options[:file] || "Robinhood")
-    end
-
     def filename
       File.basename file
-    end
-
-    def log_path
-      @log_path ||= File.expand_path(@options[:log_path] || "log")
-    end
-
-    def pids_path
-      @pids_path ||= File.expand_path(@options[:pids_path] || File.join("tmp", "pids"))
     end
   end
 end
