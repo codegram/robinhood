@@ -30,8 +30,6 @@ describe Robinhood::Daemon do
     end
 
     context 'when no additional option is provided' do
-
-
       it 'should start the daemon' do
         daemon = Robinhood::Daemon.new
 
