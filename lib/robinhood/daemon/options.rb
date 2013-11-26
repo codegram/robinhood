@@ -19,7 +19,7 @@ class Robinhood::Daemon::Options
   def parser(result)
     OptionParser.new do |opts|
       opts.on('-c', "--config FILE", String) do |file|
-        result[:file] = file
+        result[:config_file] = file
       end
 
       opts.on('--pids-path PATH') do |dir|
