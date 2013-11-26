@@ -23,6 +23,8 @@ require 'robinhood/daemon/options'
 # Extract the arguments
 options = Robinhood::Daemon::Options.new(ARGV).parse
 
+options[:command] ||= 'run'
+
 # Create the Daemonize object with the extracted arguments
 daemon = Robinhood::Daemon.new(options)
 
