@@ -1,4 +1,6 @@
 require 'spec_helper'
+require 'fileutils'
+require 'fakefs/safe'
 require 'robinhood/daemon'
 
 describe Robinhood::Daemon do
@@ -11,63 +13,84 @@ describe Robinhood::Daemon do
       app_name: 'robinhood',
       log_dir: File.expand_path('log'),
       log_output: true,
-      command: 'start'
+      ARGV: ['start']
     }
   }
-  let(:pid_dir_options) { default_options.merge!({dir: File.expand_path(File.join('tmp', 'pids_2'))}) }
-  let(:log_dir_options) { default_options.merge!({log_dir: File.expand_path('log_2')}) }
 
   describe '#start' do
+
+    before do
+      FakeFS.activate!
+
+      FileUtils.touch("Robinhood")
+    end
+
+    after do
+      FakeFS.deactivate!
+    end
+
     context 'when no additional option is provided' do
+
+
       it 'should start the daemon' do
         daemon = Robinhood::Daemon.new
-        assert_daemons_options(daemon, File.expand_path('Robinhood'), default_options)
 
-        daemon.run
+        Daemons.should_receive(:run_proc).with('Robinhood', default_options)
+
+        daemon.start
       end
     end
 
     context 'when different robinhood file is provided' do
       it 'should start the daemon with the given file' do
         daemon = Robinhood::Daemon.new(
-          robinhood_file_path: File.expand_path('robinhood_2.rb')
+          config_file: File.expand_path('robinhood_2.rb')
         )
-        assert_daemons_options(daemon, File.expand_path('robinhood_2.rb'), default_options)
 
-        daemon.run
+        Daemons.should_receive(:run_proc).with('robinhood_2.rb', default_options)
+
+        FileUtils.touch("robinhood_2.rb")
+
+        daemon.start
       end
     end
 
     context 'when pid dir is provided' do
       it 'start the daemon with the pid dir option' do
+        dir = File.expand_path(File.join('tmp', 'pids_2'))
+
         daemon = Robinhood::Daemon.new(
-          pids_dir_path: File.expand_path(File.join('tmp', 'pids_2'))
+          pids_path: dir
         )
 
-        assert_daemons_options(daemon, File.expand_path('Robinhood'), pid_dir_options)
+        Daemons.should_receive(:run_proc).with('Robinhood', default_options.merge(dir: dir))
 
-        daemon.run
+        daemon.start
       end
     end
 
     context 'when log dir is provided' do
       it 'start the daemon with the log dir option' do
-        daemon = Robinhood::Daemon.new(
-          log_dir_path: File.expand_path('log_2')
-        )
-        assert_daemons_options(daemon, File.expand_path('Robinhood'), log_dir_options)
+        dir = File.expand_path('log_2')
 
-        daemon.run
+        daemon = Robinhood::Daemon.new(
+          log_path: dir
+        )
+
+        Daemons.should_receive(:run_proc).with('Robinhood', default_options.merge(log_dir: dir))
+
+        daemon.start
       end
     end
-  end
 
-  describe '#stop' do
-    it 'should stop the daemon' do
-      daemon = Robinhood::Daemon.new(command: 'stop')
-      Daemons.should_receive(:run_proc).with(File.expand_path('Robinhood'), default_options.merge(command: 'stop'))
+    describe '#stop' do
+      it 'should stop the daemon' do
+        daemon = Robinhood::Daemon.new(command: 'stop')
 
-      daemon.stop
+        Daemons.should_receive(:run).with('Robinhood', default_options.merge(ARGV: ['stop']))
+
+        daemon.stop
+      end
     end
   end
 end

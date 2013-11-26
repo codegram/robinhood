@@ -26,4 +26,8 @@ options = Robinhood::Daemon::Options.new(ARGV).parse
 # Create the Daemonize object with the extracted arguments
 daemon = Robinhood::Daemon.new(options)
 
-daemon.run
+if daemon.respond_to?(options[:command])
+  daemon.send(options[:command])
+else
+  $stderr.puts "Robinhood has no command #{options[:command]}"
+end

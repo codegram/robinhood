@@ -16,30 +16,47 @@ module Robinhood
     #
     # Returns a new Robinhood::Daemonize
     def initialize(options={})
-      @options = options
-      @file = File.expand_path(@options[:file] || "robinhood")
-      @pids_path = File.expand_path(@options[:pids_path] || File.join("tmp", "pids"))
-      @log_path = File.expand_path(@options[:log_path] || "log")
+      @options = default_options.merge(options)
+      @file = File.expand_path(@options[:config_file])
+      @pids_path = File.expand_path(@options[:pids_path])
+      @log_path = File.expand_path(@options[:log_path])
     end
 
     # Public: Start the daemon
     #
     # Returns nothing
-    def run
+    def start
       definition = File.read(file)
 
-      FileUtils.mkdir_p log_path
-      FileUtils.mkdir_p pids_path
+      FileUtils.mkdir_p(log_path)
+      FileUtils.mkdir_p(pids_path)
 
-      Daemons.run_proc(filename, options.merge(ARGV: [@options[:command]])) do
+      Daemons.run_proc(filename, daemon_options.merge(ARGV: [@options[:command]])) do
         eval definition
         Robinhood.run
       end
     end
+    alias :run :start
+
+    def stop
+      FileUtils.mkdir_p(log_path)
+      FileUtils.mkdir_p(pids_path)
+
+      Daemons.run(filename, daemon_options.merge(ARGV: ['stop']))
+    end
 
     private
 
-    def options
+    def default_options
+      {
+        command: 'start',
+        config_file: 'Robinhood',
+        log_path: 'log',
+        pids_path: File.join("tmp", "pids")
+      }
+    end
+
+    def daemon_options
       {
         dir_mode: :normal,
         dir: pids_path,

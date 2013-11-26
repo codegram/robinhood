@@ -28,4 +28,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "spinach"
   spec.add_development_dependency "pry"
   spec.add_development_dependency "pry-nav"
+  spec.add_development_dependency "fakefs"
 end
