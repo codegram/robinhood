@@ -39,10 +39,12 @@ module Robinhood
     alias :run :start
 
     def stop
-      FileUtils.mkdir_p(log_path)
-      FileUtils.mkdir_p(pids_path)
+      Daemons.run_proc(filename, daemon_options.merge(ARGV: ['stop']))
+    end
 
-      Daemons.run(filename, daemon_options.merge(ARGV: ['stop']))
+    def restart
+      stop
+      start
     end
 
     private
