@@ -3,7 +3,7 @@ require 'robinhood'
 require 'robinhood/daemon'
 require 'robinhood/daemon/options'
 
-# This executable is responsible of start robinhood as a daemon, its basic usage is:
+# This executable is responsible of starting robinhood as a daemon, its basic usage is:
 #
 #   robinhood start
 #
@@ -11,13 +11,17 @@ require 'robinhood/daemon/options'
 #
 # Some options can be provided in order to modify the default behaviour, those are:
 #
-#  - ROBINHOOD_FILE_PATH=... # file that contains the Robinhood instance
-#  - PIDS_DIR=... # Dir to store de Pidfile for the Daemon
-#  - LOGFILE=... # Dir to store the logs for the Daemon
+#   robinhood start --pids-path /tmp/pids
+#   robinhood stop --log-path /tmp/logs
+#   robinhood -c config_file
 #
 # To stop the daemon we will execute:
 #
 #   robinhood stop
+#
+# To run it as a foreground process:
+#
+#   robinhood run
 #
 
 # Extract the arguments
