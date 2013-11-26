@@ -32,7 +32,7 @@ module Robinhood
       FileUtils.mkdir_p(pids_path)
 
       Daemons.run_proc(filename, daemon_options.merge(ARGV: [@options[:command]])) do
-        eval definition
+        instance_eval(definition, @file)
         Robinhood.run
       end
     end
