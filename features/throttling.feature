@@ -4,6 +4,6 @@ Feature: Throttling
   I want to be able to specify throttling rates
 
   Scenario: Throttle a process
-    Given I have a Robinhood file with a throttling ratio set at 5 seconds
-    When I run robinhood for 2 seconds
-    Then I should see its output only one time
+    Given I have a Robinhood file with a throttling ratio set at 3 seconds
+    When I run robinhood for 4 seconds
+    Then It only has run 2 times
