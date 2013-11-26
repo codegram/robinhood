@@ -10,9 +10,9 @@ module Robinhood
     # Public: Instantiates a new Robinhood::Daemon object
     #
     # args - Hash with the different options that can be supplied to the Daemonize object
-    #        :robinhood_file_path - File that will contain the robinhood tasks, by default it will be robinhood.rb
-    #        :pids_dir_path - Dir to store de Pidfile for the daemon, by default it will be 'tmp/pids'
-    #        :log_dir_path - Dir to store the logs for the daemon, by default it will be 'log'
+    #        :config_file - File that will contain the robinhood tasks, by default it will be robinhood.rb
+    #        :pids_path - Dir to store de Pidfile for the daemon, by default it will be 'tmp/pids'
+    #        :log_path - Dir to store the logs for the daemon, by default it will be 'log'
     #
     # Returns a new Robinhood::Daemonize
     def initialize(options={})
