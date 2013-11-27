@@ -85,7 +85,7 @@ describe Robinhood::Daemon do
       it 'should stop the daemon' do
         daemon = Robinhood::Daemon.new(command: 'stop')
 
-        Daemons.should_receive(:run).with('Robinhood', default_options.merge(ARGV: ['stop']))
+        Daemons.should_receive(:run_proc).with('Robinhood', default_options.merge(ARGV: ['stop']))
 
         daemon.stop
       end
