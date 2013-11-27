@@ -9,6 +9,15 @@ the poor.
 It leverages celluloid actors for each process and uses Redis as a locking
 mechanism to ensure the process is run in a single server.
 
+## Compatibility
+
+Robinhood works on MRI 1.9.3 and upwards, and rubinius 2.1 and upwards. We
+don't intend to support JRuby at the moment because it lacks support for
+Process#fork which is needed in order to run robinhood as a daemon. 
+
+We could make daemonizing a separate module if there was enough interest,
+though.
+
 ## Usage
 
 Install the gem:
