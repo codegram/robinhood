@@ -17,10 +17,9 @@ Install the gem:
 $ gem install robinhood
 ```
 
-Define Robinhood in a file:
+Create a `Robinhood` file in your root:
 
 ```ruby
-require 'robinhood'
 require 'your-app'
 
 Robinhood.define do
@@ -34,8 +33,31 @@ Robinhood.define do
     Sweeper.sweep!
   end
 end
+```
 
-Robinhood.run
+Launch robinhood on the foreground:
+
+```
+$ robinhood
+```
+
+Launch robinhood in a daemonized way:
+
+```
+$ robinhood start
+```
+
+Stop or restart a daemonized robinhood:
+
+```
+$ robinhood stop
+$ robinhood restart
+```
+
+You can also append options to robinhood's executable:
+
+```
+$ robinhood -c config.rb --pids-path /var/run --log-path /var/log
 ```
 
 ## How does it work?
