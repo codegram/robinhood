@@ -21,8 +21,8 @@ class Spinach::Features::Throttling < Spinach::FeatureSteps
     `bin/robinhood stop -c tmp/Robinhood`
   end
 
-  step 'It only has run 2 times' do
-    expect(File.read(@file_name)).to eq('yeahyeah')
+  step 'It has run less than 10 times' do
+    expect(File.read(@file_name).split('yeah').length).to be < 10
   end
 
   after do
