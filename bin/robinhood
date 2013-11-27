@@ -1,0 +1,39 @@
+#!/usr/bin/env ruby
+require 'robinhood'
+require 'robinhood/daemon'
+require 'robinhood/daemon/options'
+
+# This executable is responsible of starting robinhood as a daemon, its basic usage is:
+#
+#   robinhood start
+#
+# This order will start a daemon with a file called robinhood.rb as the Robinhood instance
+#
+# Some options can be provided in order to modify the default behaviour, those are:
+#
+#   robinhood start --pids-path /tmp/pids
+#   robinhood stop --log-path /tmp/logs
+#   robinhood -c config_file
+#
+# To stop the daemon we will execute:
+#
+#   robinhood stop
+#
+# To run it as a foreground process:
+#
+#   robinhood run
+#
+
+# Extract the arguments
+options = Robinhood::Daemon::Options.new(ARGV).parse
+
+options[:command] ||= 'run'
+
+# Create the Daemonize object with the extracted arguments
+daemon = Robinhood::Daemon.new(options)
+
+if daemon.respond_to?(options[:command])
+  daemon.send(options[:command])
+else
+  $stderr.puts "Robinhood has no command #{options[:command]}"
+end
