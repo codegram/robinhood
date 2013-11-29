@@ -50,6 +50,7 @@ module Robinhood
         end
       ensure
         unlock
+        sleep(1)
       end
     ensure
       async.run
