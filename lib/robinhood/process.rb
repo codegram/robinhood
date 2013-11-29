@@ -80,7 +80,7 @@ module Robinhood
     end
 
     def mutex
-      @mutex ||= Mutex.new(lock_name, block: 1, sleep: 0.1, expire: timeout)
+      @mutex ||= Mutex.new(lock_name, block: 5, sleep: 1, expire: timeout)
     end
   end
 end
