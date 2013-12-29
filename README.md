@@ -1,4 +1,4 @@
-# Robinhood [![Build Status](https://www.travis-ci.org/codegram/robinhood.png?branch=master)](https://www.travis-ci.org/codegram/robinhood)
+# Robinhood [![Build Status](https://travis-ci.org/codegram/robinhood.png?branch=master)](https://www.travis-ci.org/codegram/robinhood)
 
 Robinhood is a DSL for constructing iteration-based synchronous processes
 (aka can't be run as jobs) in a distributed manner.
@@ -13,7 +13,7 @@ mechanism to ensure the process is run in a single server.
 
 Robinhood works on MRI 1.9.3 and upwards, and rubinius 2.1 and upwards. We
 don't intend to support JRuby at the moment because it lacks support for
-Process#fork which is needed in order to run robinhood as a daemon. 
+Process#fork which is needed in order to run robinhood as a daemon.
 
 We could make daemonizing a separate module if there was enough interest,
 though.
