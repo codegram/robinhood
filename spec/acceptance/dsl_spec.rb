@@ -13,7 +13,7 @@ describe "Robinhood.define" do
 
     Robinhood.run(background: true)
 
-    sleep(0.2)
+    sleep(3)
     expect(queue).to be_empty
   end
 
