@@ -33,7 +33,7 @@ describe Robinhood::Daemon do
       it 'should start the daemon' do
         daemon = Robinhood::Daemon.new
 
-        Daemons.should_receive(:run_proc).with('Robinhood', default_options)
+        expect(Daemons).to receive(:run_proc).with('Robinhood', default_options)
 
         daemon.start
       end
@@ -45,7 +45,7 @@ describe Robinhood::Daemon do
           config_file: File.expand_path('robinhood_2.rb')
         )
 
-        Daemons.should_receive(:run_proc).with('robinhood_2.rb', default_options)
+        expect(Daemons).to receive(:run_proc).with('robinhood_2.rb', default_options)
 
         FileUtils.touch("robinhood_2.rb")
 
@@ -61,7 +61,7 @@ describe Robinhood::Daemon do
           pids_path: dir
         )
 
-        Daemons.should_receive(:run_proc).with('Robinhood', default_options.merge(dir: dir))
+        expect(Daemons).to receive(:run_proc).with('Robinhood', default_options.merge(dir: dir))
 
         daemon.start
       end
@@ -75,7 +75,7 @@ describe Robinhood::Daemon do
           log_path: dir
         )
 
-        Daemons.should_receive(:run_proc).with('Robinhood', default_options.merge(log_dir: dir))
+        expect(Daemons).to receive(:run_proc).with('Robinhood', default_options.merge(log_dir: dir))
 
         daemon.start
       end
@@ -85,7 +85,7 @@ describe Robinhood::Daemon do
       it 'should stop the daemon' do
         daemon = Robinhood::Daemon.new(command: 'stop')
 
-        Daemons.should_receive(:run_proc).with('Robinhood', default_options.merge(ARGV: ['stop']))
+        expect(Daemons).to receive(:run_proc).with('Robinhood', default_options.merge(ARGV: ['stop']))
 
         daemon.stop
       end
