@@ -38,7 +38,7 @@ module Robinhood
       Celluloid.start
 
       setup_supervision_group
-      Mutex.db = redis
+      Robinhood::Mutex.redis = redis
 
       Robinhood.log :info, "Starting Robin Hood: Robbing from the rich and giving to the poor.."
 

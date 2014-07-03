@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency 'celluloid'
-  spec.add_dependency 'redis-mutex'
+  spec.add_dependency 'redis-semaphore'
   spec.add_dependency 'daemons'
   spec.add_dependency 'rubysl' if RUBY_ENGINE == 'rbx'
 
