@@ -25,7 +25,7 @@ module Robinhood
         runtime.redis = redis
         runtime.run(background: true)
 
-        expect(Mutex.db).to eq(redis)
+        expect(Mutex.redis).to eq(redis)
       end
     end
 
