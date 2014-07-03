@@ -1,3 +1,4 @@
+require 'rspec/mocks'
 require "pry"
 require "pry-nav"
 
